@@ -1,0 +1,20 @@
+{
+    "name": "cockpit",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "update": "git submodule update & git submodule foreach git pull origin master & git submodule foreach npm install"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RescueOnWheels/Cockpit.git"
+    },
+    "author": "RescueOnWheels",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/RescueOnWheels/Cockpit/issues"
+    },
+    "homepage": "https://github.com/RescueOnWheels/Cockpit#readme"
+}
