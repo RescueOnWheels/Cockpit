@@ -14,6 +14,7 @@ controller.lshoulder.on('press', () => {
 
 controller.lshoulder.on('release', () => {
     clearInterval(loopTurnLeft);
+    loopTurnLeft = undefined;
 });
 
 controller.rshoulder.on('press', () => {
@@ -22,6 +23,7 @@ controller.rshoulder.on('press', () => {
 
 controller.rshoulder.on('release', () => {
     clearInterval(loopTurnRight);
+    loopTurnRight = undefined;
 });
 
 controller.ltrigger.on('move', (event) => {
@@ -62,29 +64,29 @@ controller.stick.on('move', (event) => {
     balance = value;
 });
 
-controller.a.on('press', () => {
-    // TODO: Trigger boost modus
-});
-
 controller.y.on('press', () => {
     speed = 0;
     direction = 1;
     balance = 0;
 });
 
+var io = require('socket.io')();
+io.listen(3000);
+
 function turnLeft() {
-    // TODO: Trigger on spot left turn
+    io.sockets.emit('move', 'left');
 }
 
 function turnRight() {
-    // TODO: Trigger on spot right turn
+    io.sockets.emit('move', 'right');
 }
 
 function emit() {
-    // TODO: Build object from data and emit to Rover
+    if (loopTurnLeft != undefined || loopTurnRight != undefined) {
+        return;
+    }
 
-    console.log({ speed, direction, balance });
-
+    io.sockets.emit('move', { speed, direction, balance });
 }
 
 controller.connect();
