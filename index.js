@@ -18,13 +18,16 @@ function turnRight() {
   io.sockets.emit('move', 'right');
 }
 
-
 function emit() {
   if (loopTurnLeft !== undefined || loopTurnRight !== undefined) {
     return;
   }
 
-  io.sockets.emit('move', { speed, direction, balance });
+  io.sockets.emit('move', {
+    speed,
+    direction,
+    balance,
+  });
 }
 
 controller.lshoulder.on('press', () => {
@@ -88,7 +91,6 @@ controller.y.on('press', () => {
   direction = 1;
   balance = 0;
 });
-
 
 io.listen(3000);
 controller.connect();
