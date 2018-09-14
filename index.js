@@ -18,16 +18,29 @@ function turnRight() {
   io.sockets.emit('move', 'right');
 }
 
+let prevEmit = {
+  speed,
+  direction,
+  balance,
+};
+
 function emit() {
   if (loopTurnLeft !== undefined || loopTurnRight !== undefined) {
     return;
   }
 
-  io.sockets.emit('move', {
+  const toEmit = {
     speed,
     direction,
     balance,
-  });
+  };
+
+  if (JSON.stringify(prevEmit) === JSON.stringify(toEmit)) {
+    return;
+  }
+
+  io.sockets.emit('move', toEmit);
+  prevEmit = toEmit;
 }
 
 controller.lshoulder.on('press', () => {
@@ -37,6 +50,7 @@ controller.lshoulder.on('press', () => {
 controller.lshoulder.on('release', () => {
   clearInterval(loopTurnLeft);
   loopTurnLeft = undefined;
+  prevEmit = {};
 });
 
 controller.rshoulder.on('press', () => {
@@ -46,6 +60,7 @@ controller.rshoulder.on('press', () => {
 controller.rshoulder.on('release', () => {
   clearInterval(loopTurnRight);
   loopTurnRight = undefined;
+  prevEmit = {};
 });
 
 controller.ltrigger.on('move', (event) => {
