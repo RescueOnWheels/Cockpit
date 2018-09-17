@@ -4,7 +4,7 @@ const SteamController = require('./Controller');
 const controller = new SteamController();
 
 let speed = 0;
-let direction = 1;
+let direction = 2;
 let balance = 0;
 
 let loopTurnLeft;
@@ -69,10 +69,13 @@ controller.ltrigger.on('move', (event) => {
   }
 
   let value = event.normval;
-  value *= -100;
+  value *= 255;
+  value /= 16;
   value = Math.round(value);
+  value *= 16;
+  value = Math.min(value, 255);
 
-  direction = -1;
+  direction = 1;
   speed = value;
 });
 
@@ -82,10 +85,13 @@ controller.rtrigger.on('move', (event) => {
   }
 
   let value = event.normval;
-  value *= 100;
+  value *= 255;
+  value /= 16;
   value = Math.round(value);
+  value *= 16;
+  value = Math.min(value, 255);
 
-  direction = 1;
+  direction = 2;
   speed = value;
 });
 
@@ -95,7 +101,7 @@ controller.stick.on('move', (event) => {
   }
 
   let value = event.normx;
-  value *= 100;
+  value *= 255;
   value = Math.round(value);
 
   balance = value;
@@ -103,7 +109,7 @@ controller.stick.on('move', (event) => {
 
 controller.y.on('press', () => {
   speed = 0;
-  direction = 1;
+  direction = 2;
   balance = 0;
 });
 
