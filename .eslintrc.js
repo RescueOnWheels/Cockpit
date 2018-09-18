@@ -3,7 +3,7 @@ module.exports = {
     "rules": {
         "multiline-comment-style": ["error", "starred-block"],
         "no-console": ["error", {
-            "allow": ["error", "warn"]
+            "allow": ["error", "info", "warn"]
         }],
         "no-multiple-empty-lines": ["error", {
             "max": 1,
