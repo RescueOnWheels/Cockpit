@@ -3,6 +3,8 @@ const SteamController = require('./Controller');
 
 const controller = new SteamController();
 
+const interval = 5;
+
 let speed = 0;
 let direction = 2;
 let balance = 0;
@@ -44,7 +46,7 @@ function emit() {
 }
 
 controller.lshoulder.on('press', () => {
-  loopTurnLeft = setInterval(turnLeft, 1);
+  loopTurnLeft = setInterval(turnLeft, interval);
 });
 
 controller.lshoulder.on('release', () => {
@@ -54,7 +56,7 @@ controller.lshoulder.on('release', () => {
 });
 
 controller.rshoulder.on('press', () => {
-  loopTurnRight = setInterval(turnRight, 1);
+  loopTurnRight = setInterval(turnRight, interval);
 });
 
 controller.rshoulder.on('release', () => {
