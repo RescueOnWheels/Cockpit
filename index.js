@@ -117,51 +117,45 @@ controller.lshoulder.on('press', () => {
   turnLeftRight = true;
 });
 
-controller.lshoulder.on('release', () => {
-  turnLeftRight = undefined;
-  prevEmit = {};
-});
-
 controller.rshoulder.on('press', () => {
   turnRight();
   turnLeftRight = true;
 });
 
-controller.rshoulder.on('release', () => {
-  turnLeftRight = undefined;
-  prevEmit = {};
+[
+  'lshoulder',
+  'rshoulder',
+].forEach((shoulder) => {
+  controller[shoulder].on('release', () => {
+    turnLeftRight = undefined;
+    prevEmit = {};
+  });
 });
 
-controller.ltrigger.on('move', (event) => {
-  if (event.delta === 0) {
-    return;
-  }
+[
+  'ltrigger',
+  'rtrigger',
+].forEach((trigger) => {
+  controller[trigger].on('move', (event) => {
+    if (event.delta === 0) {
+      return;
+    }
 
-  let value = event.normval;
-  value *= 255;
-  value /= 16;
-  value = Math.round(value);
-  value *= 16;
-  value = Math.min(value, 255);
+    let value = event.normval;
+    value *= 255;
+    value /= 16;
+    value = Math.round(value);
+    value *= 16;
+    value = Math.min(value, 255);
 
-  direction = 1;
-  speed = value;
-});
+    if (trigger === 'ltrigger') {
+      direction = 1;
+    } else {
+      direction = 2;
+    }
 
-controller.rtrigger.on('move', (event) => {
-  if (event.delta === 0) {
-    return;
-  }
-
-  let value = event.normval;
-  value *= 255;
-  value /= 16;
-  value = Math.round(value);
-  value *= 16;
-  value = Math.min(value, 255);
-
-  direction = 2;
-  speed = value;
+    speed = value;
+  });
 });
 
 controller.stick.on('move', (event) => {
