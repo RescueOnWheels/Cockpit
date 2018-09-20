@@ -21,7 +21,7 @@ socket.on('heartbeat', () => {
 });
 
 socket.on('authenticate', (cb) => {
-  if (token.length === 4) {
+  if (token.length === 4 && self.call !== undefined) {
     cb(token);
     return;
   }
@@ -35,6 +35,10 @@ socket.on('authenticated', () => {
 });
 
 socket.on('disconnect', (reason) => {
+  /**
+   * Invalid authorization token provided.
+   * The Rover disconnected us, manual re-connect required.
+   */
   if (reason === 'io server disconnect') {
     token = '';
     socket.connect();
@@ -51,12 +55,25 @@ socket.on('disconnect', (reason) => {
   'y',
 ].forEach((button) => {
   controller[button].on('press', () => {
+    /**
+     * Token request has not been send yet.
+     */
+    if (self.call === undefined) {
+      return;
+    }
+
+    /**
+     * Token already set.
+     */
     if (token.length === 4) {
       return;
     }
 
     token += button.toUpperCase();
 
+    /**
+     * Token set, attempt authorization.
+     */
     if (token.length === 4) {
       self.call(token);
     }
@@ -72,20 +89,14 @@ controller.y.on('press', () => {
     return;
   }
 
-  speed = 0;
-  direction = 2;
-  balance = 0;
+  socket.emit('move', {
+    speed: 0,
+    direction: 2,
+    balance: 0,
+  });
 });
 
 let turnLeftRight;
-
-function turnLeft() {
-  socket.emit('move', 'left');
-}
-
-function turnRight() {
-  socket.emit('move', 'right');
-}
 
 let prevEmit = {
   speed,
@@ -112,20 +123,20 @@ function emit() {
   prevEmit = toEmit;
 }
 
-controller.lshoulder.on('press', () => {
-  turnLeft();
-  turnLeftRight = true;
-});
-
-controller.rshoulder.on('press', () => {
-  turnRight();
-  turnLeftRight = true;
-});
-
 [
   'lshoulder',
   'rshoulder',
 ].forEach((shoulder) => {
+  controller[shoulder].on('press', () => {
+    if (shoulder === 'lshoulder') {
+      socket.emit('move', 'left');
+    } else {
+      socket.emit('move', 'right');
+    }
+
+    turnLeftRight = true;
+  });
+
   controller[shoulder].on('release', () => {
     turnLeftRight = undefined;
     prevEmit = {};
