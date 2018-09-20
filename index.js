@@ -94,8 +94,7 @@ controller.y.on('press', () => {
   balance = 0;
 });
 
-let loopTurnLeft;
-let loopTurnRight;
+let turnLeftRight;
 
 function turnLeft() {
   socket.emit('move', 'left');
@@ -112,7 +111,7 @@ let prevEmit = {
 };
 
 function emit() {
-  if (loopTurnLeft !== undefined || loopTurnRight !== undefined) {
+  if (turnLeftRight !== undefined) {
     return;
   }
 
@@ -131,22 +130,22 @@ function emit() {
 }
 
 controller.lshoulder.on('press', () => {
-  loopTurnLeft = setInterval(turnLeft, 1);
+  turnLeft();
+  turnLeftRight = true;
 });
 
 controller.lshoulder.on('release', () => {
-  clearInterval(loopTurnLeft);
-  loopTurnLeft = undefined;
+  turnLeftRight = undefined;
   prevEmit = {};
 });
 
 controller.rshoulder.on('press', () => {
-  loopTurnRight = setInterval(turnRight, 1);
+  turnRight();
+  turnLeftRight = true;
 });
 
 controller.rshoulder.on('release', () => {
-  clearInterval(loopTurnRight);
-  loopTurnRight = undefined;
+  turnLeftRight = undefined;
   prevEmit = {};
 });
 
