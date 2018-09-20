@@ -21,6 +21,11 @@ socket.on('heartbeat', () => {
 });
 
 socket.on('authenticate', (cb) => {
+  if (token.length === 4) {
+    cb(token);
+    return;
+  }
+
   console.info('Enter the authorization code:');
   self.call = cb;
 });
@@ -30,9 +35,8 @@ socket.on('authenticated', () => {
 });
 
 socket.on('disconnect', (reason) => {
-  token = '';
-
   if (reason === 'io server disconnect') {
+    token = '';
     socket.connect();
   }
 
@@ -40,53 +44,32 @@ socket.on('disconnect', (reason) => {
   console.warn();
 });
 
+[
+  'a',
+  'b',
+  'x',
+  'y',
+].forEach((button) => {
+  controller[button].on('press', () => {
+    if (token.length === 4) {
+      return;
+    }
+
+    token += button.toUpperCase();
+
+    if (token.length === 4) {
+      self.call(token);
+    }
+  });
+});
+
 let speed = 0;
 let direction = 2;
 let balance = 0;
 
-controller.a.on('press', () => {
-  if (token.length < 4) {
-    token += 'A';
-
-    if (token.length === 4) {
-      self.call(token);
-    }
-  }
-
-  // ignored
-});
-
-controller.b.on('press', () => {
-  if (token.length < 4) {
-    token += 'B';
-
-    if (token.length === 4) {
-      self.call(token);
-    }
-  }
-
-  // ignored
-});
-
-controller.x.on('press', () => {
-  if (token.length < 4) {
-    token += 'X';
-
-    if (token.length === 4) {
-      self.call(token);
-    }
-  }
-
-  // ignored
-});
-
 controller.y.on('press', () => {
   if (token.length < 4) {
-    token += 'Y';
-
-    if (token.length === 4) {
-      self.call(token);
-    }
+    return;
   }
 
   speed = 0;
