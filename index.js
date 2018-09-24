@@ -2,10 +2,8 @@ const DEBUG = false;
 
 /* Start of program */
 
-const socket = require('socket.io-client')('http://127.0.0.1:3000');
-const SteamController = require('./Controller');
-
-const controller = new SteamController();
+const socket = require('socket.io-client')('http://192.168.43.85:3000');
+const controller = require('./Controller');
 
 const self = this;
 let token = '';
@@ -182,4 +180,37 @@ controller.stick.on('move', (event) => {
 });
 
 setInterval(emit, 1);
-controller.connect();
+
+/**
+ * Can't use `controller.connect` inside of the `error` event,
+ * else emitting won't work.
+ */
+function connect() {
+  controller.connect();
+}
+
+controller.on('error', (err) => {
+  socket.emit('controller disconnect');
+  /**
+   * Error code 404 is only thrown if the Steam Controller is not found;
+   * Ignoring the error message because we know what it will be.
+   */
+  if (err.code !== 404) {
+    console.error(err);
+  }
+
+  /**
+   * Attempt re-connecting to the Steam Controller.
+   */
+  setTimeout(connect, 1000);
+});
+
+/**
+ * Graceful shutdown of HID.
+ */
+process.on('SIGINT', () => {
+  controller.disconnect();
+});
+
+connect();
+
