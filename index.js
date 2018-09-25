@@ -102,6 +102,13 @@ let prevEmit = {
   balance,
 };
 
+/**
+ * Emits a 'move' event with the `speed`, `direction` and `balance`;
+ * This doesn't emit if the previous emit containted the same data.
+ *
+ * @function
+ * @returns {undefined}
+ */
 function emit() {
   if (turnLeftRight !== undefined) {
     return;
@@ -182,8 +189,12 @@ controller.stick.on('move', (event) => {
 setInterval(emit, 1);
 
 /**
- * Can't use `controller.connect` inside of the `error` event,
- * else emitting won't work.
+ * Connect to the Steam Controller.
+ * This is a work-around for the `error` event of the controller,
+ * as we can't re-connect properly inside the `on` scope.
+ *
+ * @function
+ * @returns {undefined}
  */
 function connect() {
   controller.connect();
