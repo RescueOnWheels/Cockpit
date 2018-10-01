@@ -158,11 +158,12 @@ function emit() {
     }
 
     let value = event.normval;
-    value *= 255;
+    value *= 1023;
     value /= 16;
     value = Math.round(value);
     value *= 16;
-    value = Math.min(value, 255);
+    value = Math.min(value, 1023);
+    value = Math.max(value, 0);
 
     if (trigger === 'ltrigger') {
       direction = 1;
