@@ -222,6 +222,7 @@ controller.on('error', (err) => {
  */
 process.on('SIGINT', () => {
   controller.disconnect();
+  socket.disconnect();
 });
 
 connect();
