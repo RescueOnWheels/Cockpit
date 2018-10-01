@@ -1,30 +1,31 @@
 {
-    "name": "cockpit",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "lint": "eslint . --fix",
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "update": "git submodule update -f & git submodule foreach git pull origin master & git submodule foreach npm install",
-        "precommit": "npm run lint"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/RescueOnWheels/Cockpit.git"
-    },
-    "author": "RescueOnWheels",
-    "license": "GPL-3.0",
-    "bugs": {
-        "url": "https://github.com/RescueOnWheels/Cockpit/issues"
-    },
-    "homepage": "https://github.com/RescueOnWheels/Cockpit#readme",
-    "dependencies": {
-        "socket.io-client": "^2.1.1"
-    },
-    "devDependencies": {
-        "eslint": "^5.6.0",
-        "eslint-config-airbnb-base": "^13.1.0",
-        "eslint-plugin-import": "^2.14.0"
-    }
+  "name": "cockpit",
+  "version": "1.0.0",
+  "description": "Interface used to control a single Rover.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint . --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update": "git submodule update -f & git submodule foreach git pull origin master",
+    "preinstall": " git submodule foreach npm install",
+    "precommit": "npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RescueOnWheels/Cockpit.git"
+  },
+  "author": "RescueOnWheels",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/RescueOnWheels/Cockpit/issues"
+  },
+  "homepage": "https://github.com/RescueOnWheels/Cockpit#readme",
+  "dependencies": {
+    "socket.io-client": "2.1.1"
+  },
+  "devDependencies": {
+    "eslint": "5.6.0",
+    "eslint-config-airbnb-base": "13.1.0",
+    "eslint-plugin-import": "2.14.0"
+  }
 }
