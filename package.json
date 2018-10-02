@@ -4,11 +4,12 @@
   "description": "Interface used to control a single Rover.",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "update": "git submodule update -f & git submodule foreach git pull origin master",
+    "lint": "eslint .",
+    "lint-fix": "eslint . --fix",
     "preinstall": " git submodule foreach npm install",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update": "git submodule update -f & git submodule foreach git pull origin master"
   },
   "repository": {
     "type": "git",
