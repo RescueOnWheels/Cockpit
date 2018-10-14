@@ -12,7 +12,7 @@ $ npm run lint
 
 ### Start
 ```powershell
-$ npm start [--debug]
+$ npm start [--dev] [--debug]
 ```
 
 ### Test
