@@ -37,7 +37,7 @@ module.exports = {
       },
       "matchDescription": ".+",
       "requireParamDescription": true,
-      "requireReturn": true,
+      "requireReturn": false,
       "requireReturnDescription": true,
       "requireReturnType": true,
     }]
