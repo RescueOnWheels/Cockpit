@@ -1,4 +1,4 @@
-[submodule "Controller"]
+[submodule "lib/Controller"]
 	path = lib/Controller
 	url = https://github.com/RescueOnWheels/Controller
 	ignore = dirty
